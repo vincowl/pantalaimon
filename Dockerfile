@@ -31,5 +31,5 @@ RUN pip --no-cache-dir install --find-links /wheels --no-index pantalaimon
 RUN pip --no-cache-dir install --find-links /wheels --no-index pantalaimon[ui]
 
 VOLUME /data
-ENTRYPOINT ["dbus-run-session", "--", "pantalaimon"]
-CMD ["-c", "/data/pantalaimon.conf", "--data-path", "/data"]
+ENTRYPOINT ["dbus-run-session"]
+CMD ["env", "DISPLAY=:0", "pantalaimon", "-c", "/data/pantalaimon.conf", "--data-path", "/data"]
