@@ -1,10 +1,7 @@
-FROM python:3.8-slim-bullseye AS run
-RUN apt-get update && apt-get install -y tmux dbus dbus-x11 libcairo2-dev libgirepository1.0-dev
-
-FROM python:3.8-slim-buster AS builder
+FROM python:3.8-slim-bullseye AS builder
 
 RUN mkdir -p /app
-RUN apt-get update && apt-get install -y git gcc clang cmake g++ pkg-config python3-dev wget libcairo2-dev libgirepository1.0-dev libdbus-1-3 libdbus-1-dev
+RUN apt-get update && apt-get install -y git gcc clang cmake g++ pkg-config python3-dev wget libcairo2-dev libgirepository1.0-dev libdbus-1-3 libdbus-1-dev libffi libffi6
 
 WORKDIR /app
 RUN wget https://gitlab.matrix.org/matrix-org/olm/-/archive/master/olm-master.tar.bz2 \
@@ -32,7 +29,6 @@ WORKDIR /app
 
 RUN pip --no-cache-dir install --find-links /wheels --no-index pantalaimon
 RUN pip --no-cache-dir install --find-links /wheels --no-index pantalaimon[ui]
-
 
 VOLUME /data
 ENTRYPOINT ["dbus-run-session", "--", "pantalaimon"]
