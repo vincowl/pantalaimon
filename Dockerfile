@@ -31,9 +31,14 @@ WORKDIR /app
 RUN pip --no-cache-dir install --find-links /wheels --no-index pantalaimon
 RUN pip --no-cache-dir install --find-links /wheels --no-index pantalaimon[ui]
 
+COPY initscripts/init.sh /usr/local/bin/.
+RUN chmod +x /usr/local/bin/init.sh
+
 VOLUME /data
 #ENTRYPOINT ["dbus-run-session"]
 #CMD ["env", "DISPLAY=:0", "pantalaimon", "-c", "/data/pantalaimon.conf", "--data-path", "/data"]
-ENTRYPOINT ["pantalaimon"]
-CMD ["-c", "/data/pantalaimon.conf", "--data-path", "/data"]
+#ENTRYPOINT ["pantalaimon"]
+#CMD ["-c", "/data/pantalaimon.conf", "--data-path", "/data"]
+ENTRYPOINT ["/bin/bash", "/etc/init/init.sh"]
+
 
