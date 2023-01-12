@@ -22,6 +22,7 @@ COPY --from=builder /wheels /wheels
 
 ENV DISPLAY=:0
 #RUN service dbus start
+RUN systemd --user start dbus.socket
 ENV NO_AT_BRIDGE=1
 RUN export "$(dbus-launch)"
 
