@@ -39,6 +39,5 @@ VOLUME /data
 #CMD ["env", "DISPLAY=:0", "pantalaimon", "-c", "/data/pantalaimon.conf", "--data-path", "/data"]
 #ENTRYPOINT ["pantalaimon"]
 #CMD ["-c", "/data/pantalaimon.conf", "--data-path", "/data"]
-ENTRYPOINT ["/bin/bash", "/etc/init/init.sh"]
-
+ENTRYPOINT ["/bin/bash", "/usr/local/bin/init.sh"]
 
