@@ -15,13 +15,13 @@ COPY . /app
 RUN pip wheel .[ui] --wheel-dir /wheels --find-links /wheels
 
 FROM python:3.8-slim-bullseye AS run
-RUN apt-get update && apt-get install -y tmux dbus dbus-x11 libcairo2-dev libgirepository1.0-dev libffi7
+RUN apt-get update && apt-get install -y tmux dbus dbus-x11 libcairo2-dev libgirepository1.0-dev libffi7 dbus-user-session
 
 COPY --from=builder /usr/lib/libolm* /usr/lib/
 COPY --from=builder /wheels /wheels
 
 ENV DISPLAY=:0
-RUN service dbus start
+#RUN service dbus start
 ENV NO_AT_BRIDGE=1
 RUN export "$(dbus-launch)"
 
@@ -31,5 +31,8 @@ RUN pip --no-cache-dir install --find-links /wheels --no-index pantalaimon
 RUN pip --no-cache-dir install --find-links /wheels --no-index pantalaimon[ui]
 
 VOLUME /data
-ENTRYPOINT ["dbus-run-session"]
-CMD ["env", "DISPLAY=:0", "pantalaimon", "-c", "/data/pantalaimon.conf", "--data-path", "/data"]
+#ENTRYPOINT ["dbus-run-session"]
+#CMD ["env", "DISPLAY=:0", "pantalaimon", "-c", "/data/pantalaimon.conf", "--data-path", "/data"]
+ENTRYPOINT ["pantalaimon"]
+CMD ["-c", "/data/pantalaimon.conf", "--data-path", "/data"]
+
