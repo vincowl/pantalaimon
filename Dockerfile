@@ -21,10 +21,11 @@ COPY --from=builder /usr/lib/libolm* /usr/lib/
 COPY --from=builder /wheels /wheels
 
 ENV DISPLAY=:0
-RUN service dbus start
+#RUN service dbus start
 #RUN systemd --user start dbus.socket
-ENV NO_AT_BRIDGE=1
-RUN export "$(dbus-launch)"
+#ENV NO_AT_BRIDGE=1
+#RUN export "$(dbus-launch)"
+ENV DBUS_SESSION_BUS_ADDRESS="unix:path=/var/run/dbus/system_bus_socket"
 
 WORKDIR /app
 
